@@ -22,12 +22,21 @@ Issue → Branch → Commit → Pull Request → CI
 
 ## 快速開始
 
-安裝 Skill。
+安裝 Skill 步驟
 
-```text
+1. 安裝 marketplace
+```bash
 /plugin marketplace add haruselect-tech/github-feature-flow
+```
+2. 安裝 skill
+```bash
 /plugin install github-feature-flow@haruselect-tech
 ```
+3. 安裝完成後，讓 Claude 重新載入 Skills。
+```bash
+/reload-skills
+```
+
 
 接著直接跟 Claude 說：
 
