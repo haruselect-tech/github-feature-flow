@@ -23,6 +23,25 @@ allowed-tools: Bash
 
 ---
 
+## 🧭 決策樹（每次動作前先判斷）
+
+動手前先定位「現在在哪、要做什麼」，再決定走哪條路：
+
+```mermaid
+flowchart TD
+    S(["使用者要做新功能 / 改動"]) --> Q1{"git branch --show-current?"}
+    Q1 -- "已在 feat/N-…" --> WORK["直接在這條分支開發 → Step 3"]
+    Q1 -- "main" --> Q2{"這是什麼改動？"}
+    Q2 -- "全新功能" --> NEW["Step 1 開 Issue → Step 2 建新分支"]
+    Q2 -- "上一個 PR 的補丁" --> Q3{"那個 PR merge 了嗎？"}
+    Q3 -- "未 merge" --> CO["git checkout 回原 feat 分支 → Step 3"]
+    Q3 -- "已 merge" --> NEW2["開新分支 fix/M-… 走完整流程"]
+```
+
+> ❗ **核心規則：絕不在 `main` 上 commit。** 任何改動都從一條 `feat/` 或 `fix/` 分支經 PR 進來。
+
+---
+
 ## Step 1：開 Issue
 
 ```bash
@@ -157,6 +176,17 @@ EOF
    > ⚠️ GitHub Actions 用的是 **Check Runs API**；舊的 Commit Status API（某些工具的 `pr status`）讀不到 Actions 結果，會回空。一律用 `gh pr checks`。
 
 3. **如果 CI 失敗**，先看 log → 修 → 重新 commit → push，不要乾等 — 直接分析 build log。
+
+---
+
+## ⚠️ Edge cases（這些情況要特別處理）
+
+- **已經在 `feat/N-…` 分支** → 不要再開新分支，直接開發。
+- **PR merge 後要補小修正** → session 多半已回到 `main`；**先開一條新分支 `fix/M-…`**，絕不在 main 上 commit。
+- **使用者只說「commit」沒提分支** → 先 `git branch --show-current`；若是 `main` 就停下來，先建/切分支再 commit。
+- **一條分支牽涉多個 issue** → 拆開：一個 PR 對一個 issue（一行 `Closes #N`）。
+- **改到 `.env` 或機密檔** → 不要 stage；提醒加進 `.gitignore`。
+- **CI 失敗** → 直接 `gh run view --log-failed` 讀 log，修完重 push，不要乾等。
 
 ---
 

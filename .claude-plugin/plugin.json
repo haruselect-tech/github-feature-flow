@@ -1,6 +1,6 @@
 {
   "name": "github-feature-flow",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "完整的 GitHub 功能開發流程 skill：Issue → Branch → Commit → PR → CI 一條龍，透過 gh CLI 執行。給 vibe coder 的安全帶——不再手滑 push 到 main。",
   "author": {
     "name": "haruselect-tech",
