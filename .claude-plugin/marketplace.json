@@ -1,0 +1,14 @@
+{
+  "name": "haruselect-tech",
+  "version": "1.0",
+  "plugins": [
+    {
+      "name": "github-feature-flow",
+      "description": "GitHub 功能開發流程：Issue → Branch → Commit → PR → CI 一條龍（gh CLI）",
+      "source": {
+        "source": "github",
+        "repo": "haruselect-tech/github-feature-flow"
+      }
+    }
+  ]
+}
